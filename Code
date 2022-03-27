@@ -1,0 +1,27 @@
+let distance = 0
+input.buttonA.onEvent(ButtonEvent.Click, function () {
+    pause(6000)
+    crickit.motor1.run(85)
+    crickit.motor2.run(85)
+})
+input.buttonB.onEvent(ButtonEvent.Click, function () {
+    crickit.motor1.run(0)
+    crickit.motor2.run(0)
+})
+forever(function () {
+    pins.A3.digitalWrite(false)
+    control.waitMicros(4)
+    pins.A3.digitalWrite(true)
+    control.waitMicros(10)
+    pins.A3.digitalWrite(false)
+    distance = pins.A2.pulseIn(PulseValue.High) / 58
+    console.logValue("x", distance)
+    if (distance < 10) {
+        crickit.servo1.setAngle(170)
+        pause(200)
+        crickit.servo1.setAngle(13)
+        pause(200)
+    } else {
+        light.clear()
+    }
+})
